@@ -74,12 +74,20 @@ namespace MoveToFile
             var syntaxTree = await document.GetSyntaxTreeAsync();
             var modifiedSyntaxTree = syntaxTree.GetRoot().RemoveNode(typeDecl, SyntaxRemoveOptions.KeepNoTrivia);
 
-            // TODO: If the original file now has no types, remove it completely.
-            // TOODO: Remove unused usings from both source and new.
+            // If the original file now has no types, remove it completely.
+            var remainingTypesInDocument = modifiedSyntaxTree.DescendantNodesAndSelf()?.Where(x => x.GetType() == typeof(ClassDeclarationSyntax)).ToList();
+            if(remainingTypesInDocument == null || !remainingTypesInDocument.Any())
+            {
+                // Remove this file completely
+                newSolution = newSolution.RemoveDocument(document.Id);
+            } else
+            {
+                // Include the modified document
+                newSolution = newSolution.WithDocumentSyntaxRoot(document.Id, modifiedSyntaxTree);
+            }
 
-            newSolution = newSolution.WithDocumentSyntaxRoot(document.Id, modifiedSyntaxTree);
+            // TOODO: Remove unused usings from both source and new.
             
-            // Return the new solution with added file for typeDecl and removed node from document
             return newSolution;
         }
     }
