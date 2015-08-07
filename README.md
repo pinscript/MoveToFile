@@ -1,5 +1,5 @@
 # MoveToFile
-MoveToFile is a Visual Studio extension that offers a code fix to move types to a file corresponding to it's name. It is available for all types.
+MoveToFile is a Visual Studio extension that offers a code fix to move classes/types to a file corresponding to its name. It's available for all types.
 
 The refactoring is shown for types where the current file does not match its name. For example:
 
