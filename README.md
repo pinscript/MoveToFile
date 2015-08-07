@@ -10,3 +10,4 @@ The refactoring is shown for types where the current file does not match its nam
 ## Todo
 
 - [ ] Remove unused usings from both files.
+- [ ] Allow a new file name to be specified manually (is this even possible?)
