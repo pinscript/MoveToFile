@@ -75,7 +75,9 @@ namespace MoveToFile
             var modifiedSyntaxTree = syntaxTree.GetRoot().RemoveNode(typeDecl, SyntaxRemoveOptions.KeepNoTrivia);
 
             // If the original file now has no types, remove it completely.
-            var remainingTypesInDocument = modifiedSyntaxTree.DescendantNodesAndSelf()?.Where(x => x.GetType() == typeof(ClassDeclarationSyntax)).ToList();
+            var remainingTypesInDocument = modifiedSyntaxTree.DescendantNodesAndSelf()?
+                                                             .Where(x => x.GetType() == typeof(EnumDeclarationSyntax) ||
+                                                                         x.GetType() == typeof(TypeDeclarationSyntax)).ToList();
             if(remainingTypesInDocument == null || !remainingTypesInDocument.Any())
             {
                 // Remove this file completely
